@@ -35,7 +35,7 @@ if(Request::isMethod('POST'))
 
     set_flash_msg(['success'=>"Pesanan berhasil ditambahkan"]);
 
-    header('location:'.routeTo('crud/index', ['table' => 'mc_orders', 'filter' => ['status' => 'NEW']]));
+    header('location:'.routeTo('minicafe/orders/detail', ['code' => $data['code']]));
     die();
 }
 
