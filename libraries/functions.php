@@ -37,3 +37,10 @@ Event::register('crud/delete/default/users', function($createData){
     header('location:'.routeTo('minicafe/'.$role_name));
     die;
 });
+
+\Modules\Default\Libraries\Sdk\Dashboard::add('minicafeDashboardMenu');
+
+function minicafeDashboardMenu()
+{
+    return view('minicafe/views/dashboard/menu');
+}
