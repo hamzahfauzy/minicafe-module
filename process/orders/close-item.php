@@ -4,7 +4,7 @@ use Core\Database;
 
 $db = new Database;
 $item = $db->single('mc_order_items', ['id' => $_GET['id']]);
-$logs = $item->logs ? json_decode($item->logs) : [];
+$logs = $item->logs ? json_decode($item->logs, 1) : [];
 $logs[date('Y-m-d H:i:s')] = "CLOSE by " . auth()->name . " (".auth()->id.") at ". date('Y-m-d H:i:s');
 $db->update('mc_order_items', [
     'status' => 'CLOSE',

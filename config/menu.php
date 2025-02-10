@@ -5,7 +5,9 @@ return [
         'label' => 'minicafe.menu.master',
         'icon'  => 'fa-fw fa-lg me-2 fa-solid fa-box',
         'activeState' => [
+            'minicafe.mc_cafes',
             'minicafe.mc_customers',
+            'minicafe.operators',
             'minicafe.waiters',
             'minicafe.kitchens',
             'minicafe.mc_categories',
@@ -14,13 +16,23 @@ return [
         ],
         'items' => [
             [
+                'label' => 'minicafe.menu.cafes',
+                'route' => routeTo('crud/index',['table'=>'mc_cafes']),
+                'activeState' => 'minicafe.mc_cafes'
+            ],
+            [
+                'label' => 'minicafe.menu.operators',
+                'route' => routeTo('minicafe/operators/index'),
+                'activeState' => 'minicafe.operators'
+            ],
+            [
                 'label' => 'minicafe.menu.waiters',
-                'route' => routeTo('minicafe/waiters'),
+                'route' => routeTo('minicafe/waiters/index'),
                 'activeState' => 'minicafe.waiters'
             ],
             [
                 'label' => 'minicafe.menu.kitchens',
-                'route' => routeTo('minicafe/kitchens'),
+                'route' => routeTo('minicafe/kitchens/index'),
                 'activeState' => 'minicafe.kitchens'
             ],
             [
@@ -84,5 +96,19 @@ return [
         'activeState' => [
             'minicafe.mc_order_items',
         ],
+    ],
+    [
+        'label' => 'minicafe.menu.reports',
+        'icon'  => 'fa-fw fa-lg me-2 fa-solid fa-file',
+        'activeState' => [
+            'minicafe.reports.recap',
+        ],
+        'items' => [
+            [
+                'label' => 'minicafe.menu.recap',
+                'route' => routeTo('minicafe/reports/recap'),
+                'activeState' => 'minicafe.reports.recap'
+            ],
+        ]
     ],
 ];

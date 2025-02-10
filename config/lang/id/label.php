@@ -7,7 +7,12 @@ return [
     'mc_sections' => 'Bagian',
     'mc_products' => 'Produk',
     'mc_orders' => 'Pesanan',
+    'mc_cafes' => 'Cafe',
     'waiters' => 'Pelayan',
     'kitchens' => 'Dapur',
-    'mc_order_items' => 'Antrian'
+    'mc_order_items' => 'Antrian',
+    'users' => 'Pengguna',
+    'operators' => 'Operator',
+    'reports' => 'Laporan',
+    'recap' => 'Rekapitulasi'
 ];

@@ -1,7 +1,26 @@
 <?php 
 
 return [
+    'mc_cafes' => [
+        'name' => [
+            'type' => 'text',
+            'label' => 'Nama'
+        ],
+        'phone' => [
+            'type' => 'text',
+            'label' => 'No. HP'
+        ],
+        'address' => [
+            'type' => 'text',
+            'label' => 'Alamat'
+        ],
+        '_userstamp' => true
+    ],
     'mc_customers' => [
+        'cafe_id' => [
+            'type' => 'options-obj:mc_cafes,id,name',
+            'label' => 'Cafe'
+        ],
         'name' => [
             'type' => 'text',
             'label' => 'Nama'
@@ -16,15 +35,23 @@ return [
         ],
     ],
     'mc_sections' => [
+        'organization_id' => [
+            'type' => 'options-obj:saas_organizations,id,name',
+            'label' => 'Organisasi'
+        ],
         'name' => [
             'type' => 'text',
             'label' => 'Nama'
         ]
     ],
     'mc_categories' => [
+        'organization_id' => [
+            'type' => 'options-obj:saas_organizations,id,name',
+            'label' => 'Organisasi'
+        ],
         'section_id' => [
             'type' => 'options-obj:mc_sections,id,name',
-            'label' => 'Section'
+            'label' => 'Bagian'
         ],
         'name' => [
             'type' => 'text',
@@ -32,6 +59,10 @@ return [
         ],
     ],
     'mc_products' => [
+        'cafe_id' => [
+            'type' => 'options-obj:mc_cafes,id,name',
+            'label' => 'Cafe'
+        ],
         'category_id' => [
             'type' => 'options-obj:mc_categories,id,name',
             'label' => 'Kategori'
@@ -46,6 +77,10 @@ return [
         ],
     ],
     'mc_orders' => [
+        'cafe_id' => [
+            'type' => 'options-obj:mc_cafes,id,name',
+            'label' => 'Cafe'
+        ],
         'customer_id' => [
             'type' => 'options-obj:mc_customers,id,name',
             'label' => 'Kustomer'

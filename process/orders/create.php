@@ -3,12 +3,14 @@
 use Core\Database;
 use Core\Page;
 use Core\Request;
+use Core\Session;
 
 $db = new Database;
 $tableName = 'mc_orders';
 $module = 'minicafe';
 $error_msg  = get_flash_msg('error');
 $old        = get_flash_msg('old');
+$cafe_id = Session::get('employee')->cafe_id;
 
 if(Request::isMethod('POST'))
 {
@@ -17,12 +19,14 @@ if(Request::isMethod('POST'))
     {
         // unset($data['customer_id'])
         $customer = $db->insert('mc_customers', [
-            'name' => $_POST['customer_name']
+            'name' => $_POST['customer_name'],
+            'cafe_id' => $cafe_id,
         ]);
 
         $data['customer_id'] = $customer->id;
     }
     $items = $_POST['items'];
+    $data['cafe_id'] = $cafe_id;
     $data['total_items'] = count($items);
     $data['total_qty'] = array_sum(array_column($items, 'qty'));
     $order = $db->insert($tableName, $data);
@@ -39,11 +43,13 @@ if(Request::isMethod('POST'))
     die();
 }
 
-$db->query = "SELECT COUNT(*) as `counter` FROM mc_orders WHERE created_at LIKE '%".date('Y-m')."%'";
+$db->query = "SELECT COUNT(*) as `counter` FROM mc_orders WHERE created_at LIKE '%".date('Y-m')."%' AND cafe_id = $cafe_id";
 $counter = $db->exec('single')?->counter ?? 0;
 
 $counter = sprintf("%05d", $counter+1);
 $code    = 'INV' . date('Ym'). $counter;
+
+$employee = Session::get('employee');
 
 $db->query = "SELECT 
                 mc_products.*, 
@@ -51,10 +57,13 @@ $db->query = "SELECT
                 users.name target_name
               FROM mc_products 
               LEFT JOIN mc_categories ON mc_categories.id = mc_products.category_id
-              LEFT JOIN users ON users.id = mc_products.target_id";
+              LEFT JOIN users ON users.id = mc_products.target_id
+              WHERE mc_products.cafe_id = $employee->cafe_id";
 $products = $db->exec('all');
 
-$customers = $db->all('mc_customers');
+$customers = $db->all('mc_customers', [
+    'cafe_id' => $employee->cafe_id
+]);
 
 // page section
 $title = 'Pesanan Baru';

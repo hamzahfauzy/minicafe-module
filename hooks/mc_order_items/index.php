@@ -1,8 +1,22 @@
 <?php
 
+use Core\Session;
+
 $having = "";
 
 $where .= (empty($where) ? "WHERE " : "AND ") . " $this->table.status <> 'CLOSE'";
+
+$auth = auth();
+if(get_role($auth->id)->name == 'Operator')
+{
+    $filter['cafe_id'] = Session::get('employee')->cafe_id;
+}
+
+if(get_role($auth->id)->name == 'Owner')
+{
+    // $filter['cafe_id'] = Session::get('employee')->cafe_id;
+    $where = " AND (mc_orders.cafe_id IN (SELECT id FROM mc_cafes WHERE organization_id = ".Session::get('organization')->id."))";
+}
 
 if($filter)
 {
