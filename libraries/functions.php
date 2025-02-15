@@ -2,6 +2,7 @@
 
 use Core\Database;
 use Core\Event;
+use Core\Page;
 
 Event::register('crud/create/minicafe/users', function($createData){
     if(isset($_GET['filter']))
@@ -68,5 +69,16 @@ if($auth && in_array(get_role($auth->id)->name, ['Operator','Waiter','Kitchen'])
         'id' => $employee->cafe_id
     ]);
 
+    $roles = get_roles($auth->id);
+    $roles = array_map(function($role){
+        return $role->name;
+    }, $roles);
+
+    $employee->roles = $roles;
+
     $_SESSION['employee'] = $employee;
+
+    Page::pushFoot('<script>window.employee = '.json_encode($employee).'</script>');
+    Page::pushFoot('<script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>');
+    Page::pushFoot('<script src="/assets/minicafe/js/socket.js"></script>');
 }
